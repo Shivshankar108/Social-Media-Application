@@ -1,15 +1,16 @@
 package com.example.social_media_app.entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,28 +18,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Data
+@Entity
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "users")
-public class User {
+@Table(name = "posts")
+@Data
+public class Post {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String password;
+	private Long postId;
+	private String caption;
+	private String image;
+	private String video;
+	private LocalDateTime createdAt;
 	
-	private List<Long> followers = new ArrayList<>();
+	@ManyToOne
+	private User user;
 	
-	private List<Long> followings = new ArrayList<>();
-
-	@JsonIgnore
-	@ManyToMany
-	private List<Post> savedPost = new ArrayList<>();
+	@OneToMany
+	private List<User> liked = new ArrayList<>();
+	
 }
