@@ -3,11 +3,12 @@ package com.example.social_media_app.service;
 import java.util.List;
 
 import com.example.social_media_app.entity.User;
+import com.example.social_media_app.response.AuthResponse;
 
 public interface UserService {
 
 	
-	public User registerUser(User user);
+	public AuthResponse registerUser(User user) throws Exception;
 	
 	public User findUserById(Long id);
 	

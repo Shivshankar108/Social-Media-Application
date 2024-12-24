@@ -26,14 +26,14 @@ public class PostController {
 	@Autowired
 	PostService postService;
 	
-	@PostMapping("/posts/user/{userId}")
+	@PostMapping("/api/posts/user/{userId}")
 	public ResponseEntity<Post> createPost(@RequestBody Post post,@PathVariable Long userId){
 		
 		Post newPost = postService.createPost(post, userId);
 		return new ResponseEntity<> (newPost,HttpStatus.ACCEPTED);
 	}
 	
-	@DeleteMapping("/posts/{postId}/users/{userId}")
+	@DeleteMapping("/api/posts/{postId}/users/{userId}")
 	public ResponseEntity<ApiResponse> deletePost(@PathVariable Long postId, @PathVariable Long userId) throws Exception{
 		
 		String message = postService.deletePost(postId, userId);
@@ -42,21 +42,21 @@ public class PostController {
 		return new ResponseEntity<ApiResponse>(res, HttpStatus.OK);
 	}
 	
-	@GetMapping("/posts/{postId}")
+	@GetMapping("/api/posts/{postId}")
 	public ResponseEntity<Post> findPostById(@PathVariable Long postId){
 		
 		Post post = postService.findPostById(postId);
 		return new ResponseEntity<Post>(post,HttpStatus.ACCEPTED);
 	}
 	
-	@GetMapping("/posts/user/{userId}")
+	@GetMapping("/api/posts/user/{userId}")
 	public ResponseEntity<List<Post>> findPostByUserId(@PathVariable Long userId){
 	
 		List<Post> posts = postService.findPostByUserId(userId);
 		return new ResponseEntity<>(posts, HttpStatus.OK);
 	}
 	
-	@GetMapping("/posts")
+	@GetMapping("/api/posts")
 	public ResponseEntity<List<Post>> findAllPosts(){
 	
 		List<Post> posts = postService.findAllPost();
@@ -64,14 +64,14 @@ public class PostController {
 	}
 	
 	
-	@PutMapping("/posts/saved/{postId}/user/{userId}")
+	@PutMapping("/api/posts/saved/{postId}/user/{userId}")
 	public ResponseEntity<Post> savedPost(@PathVariable Long postId, @PathVariable Long userId){
 		
 		Post post = postService.savedPost(postId, userId);
 		return new ResponseEntity<Post>(post,HttpStatus.ACCEPTED);
 	}
 
-	@PutMapping("/posts/liked/{postId}/user/{userId}")
+	@PutMapping("/api/posts/liked/{postId}/user/{userId}")
 	public ResponseEntity<Post> likedPost(@PathVariable Long postId, @PathVariable Long userId){
 		
 		Post post = postService.LikePost(postId, userId);

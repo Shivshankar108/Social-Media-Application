@@ -3,10 +3,15 @@ package com.example.social_media_app.serviceImpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.social_media_app.entity.User;
 import com.example.social_media_app.repository.UserRepo;
+import com.example.social_media_app.response.AuthResponse;
+import com.example.social_media_app.service.JwtService;
 import com.example.social_media_app.service.UserService;
 
 
@@ -16,18 +21,34 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	UserRepo userRepo;
 	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
+	@Autowired
+	JwtService jwtService;
 	
 	@Override
-	public User registerUser(User user) {
+	public AuthResponse registerUser(User user) throws Exception {
+		
+		User isExist = userRepo.findByEmail(user.getEmail());
+		
+		if(isExist != null) throw new Exception("Use different email to create account");
 		
 		User newUser = new User();
 		newUser.setFirstName(user.getFirstName());
 		newUser.setLastName(user.getLastName());
 		newUser.setEmail(user.getEmail());
-		newUser.setPassword(user.getPassword());
+		newUser.setPassword(passwordEncoder.encode(user.getPassword()));
 		
-		return userRepo.save(newUser);
+		User savedUser = userRepo.save(newUser);
+		
+		Authentication authentication = new UsernamePasswordAuthenticationToken(newUser.getEmail(), savedUser.getPassword());
+		
+		String token = jwtService.generateToken(authentication);
+		
+		AuthResponse res = new AuthResponse(token,"registered successfully");
+		
+		return res;
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.social_media_app.entity.User;
 import com.example.social_media_app.repository.UserRepo;
+import com.example.social_media_app.response.AuthResponse;
 import com.example.social_media_app.service.UserService;
 
 @RestController
@@ -25,26 +26,33 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+		
 	
-	@PostMapping("/users")
-	public User createUser(@RequestBody User user) {
-		return userService.registerUser(user);
-	}
-	
-	
-	@GetMapping("/users/{userId}")
+	@GetMapping("/api/users/find/{userId}")
 	public User findUserById(@PathVariable Long userId) {
 		
 		return userService.findUserById(userId);
 	}
 	
-	@PutMapping("/users/follow/{userId1}/{userId2}")
+	@GetMapping("/api/users/findByEmail/{email}")
+	public User findUserByEmail(@PathVariable String email) {
+		return userService.findUserByEmail(email);
+	}
+	
+	
+	@PutMapping("/api/users/update/{userId}")
+	public User updatUserHandler(@RequestBody User user, @PathVariable Long userId) throws Exception {
+		return userService.updateUser(user, userId);
+	}
+	
+	
+	@PutMapping("/api/users/follow/{userId1}/{userId2}")
 	public User followUserHandler(@PathVariable Long userId1, Long userId2) {
 		
 		return userService.followUser(userId1, userId2);
 	}
 	
-	@GetMapping("/users/search")
+	@GetMapping("/api/users/search")
 	public List<User> searchUser(@RequestParam("query") String query){
 		
 		List<User> users =userService.searchUser(query);
