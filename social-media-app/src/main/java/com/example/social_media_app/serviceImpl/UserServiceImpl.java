@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.social_media_app.config.JwtFilter;
-import com.example.social_media_app.entity.User;
+import com.example.social_media_app.models.User;
 import com.example.social_media_app.repository.UserRepo;
 import com.example.social_media_app.response.AuthResponse;
 import com.example.social_media_app.service.JwtService;

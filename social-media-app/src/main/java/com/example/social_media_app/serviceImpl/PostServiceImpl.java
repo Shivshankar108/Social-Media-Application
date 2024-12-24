@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.social_media_app.entity.Post;
-import com.example.social_media_app.entity.User;
+import com.example.social_media_app.models.Post;
+import com.example.social_media_app.models.User;
 import com.example.social_media_app.repository.PostRepo;
 import com.example.social_media_app.repository.UserRepo;
 import com.example.social_media_app.service.PostService;

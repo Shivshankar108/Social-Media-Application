@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.example.social_media_app.entity.User;
+import com.example.social_media_app.models.User;
 
 public interface UserRepo  extends JpaRepository<User, Long>{
 

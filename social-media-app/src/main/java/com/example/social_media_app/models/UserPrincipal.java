@@ -1,4 +1,4 @@
-package com.example.social_media_app.entity;
+package com.example.social_media_app.models;
 
 import java.util.Collection;
 import java.util.Collections;

@@ -2,7 +2,7 @@ package com.example.social_media_app.service;
 
 import java.util.List;
 
-import com.example.social_media_app.entity.User;
+import com.example.social_media_app.models.User;
 import com.example.social_media_app.response.AuthResponse;
 
 public interface UserService {

@@ -10,8 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.example.social_media_app.entity.User;
-import com.example.social_media_app.entity.UserPrincipal;
+import com.example.social_media_app.models.User;
+import com.example.social_media_app.models.UserPrincipal;
 import com.example.social_media_app.repository.UserRepo;
 
 

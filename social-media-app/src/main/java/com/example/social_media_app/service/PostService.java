@@ -2,7 +2,7 @@ package com.example.social_media_app.service;
 
 import java.util.List;
 
-import com.example.social_media_app.entity.Post;
+import com.example.social_media_app.models.Post;
 
 public interface PostService {
 	

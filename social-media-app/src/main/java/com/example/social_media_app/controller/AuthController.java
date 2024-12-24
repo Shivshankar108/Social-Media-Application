@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.social_media_app.entity.User;
+import com.example.social_media_app.models.User;
 import com.example.social_media_app.repository.UserRepo;
 import com.example.social_media_app.request.LoginRequest;
 import com.example.social_media_app.response.AuthResponse;
