@@ -28,7 +28,7 @@ import lombok.Setter;
 public class Post {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long postId;
 	private String caption;
 	private String image;
