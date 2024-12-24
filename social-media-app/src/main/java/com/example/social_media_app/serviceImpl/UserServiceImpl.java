@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.social_media_app.config.JwtFilter;
 import com.example.social_media_app.entity.User;
 import com.example.social_media_app.repository.UserRepo;
 import com.example.social_media_app.response.AuthResponse;
@@ -50,6 +51,15 @@ public class UserServiceImpl implements UserService{
 		
 		return res;
 	}
+	
+	@Override
+	public List<User> findAll() {
+
+		List<User> users = userRepo.findAll();
+		
+		return users;
+	}
+	
 
 	@Override
 	public User findUserById(Long UserId) {
@@ -70,22 +80,22 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User followUser(Long userId1, Long userId2) {
+	public User followUser(Long reqUserId, Long userId2) {
 		
-		User user1 = findUserById(userId1);
+		User reqUser = findUserById(reqUserId);
 		User user2  =findUserById(userId2);
 		
-		if(user1 == null || user2 == null) {
+		if(reqUser == null || user2 == null) {
 			throw new RuntimeException("User does Not exists");
 		}
 		else {
-			user2.getFollowers().add(user1.getId());
-			user1.getFollowings().add(user2.getId());
+			user2.getFollowers().add(reqUser.getId());
+			reqUser.getFollowings().add(user2.getId());
 
-			userRepo.save(user1);
+			userRepo.save(reqUser);
 			userRepo.save(user2);
 		}
-		return user1;
+		return reqUser;
 	}
 
 	@Override
@@ -111,5 +121,18 @@ public class UserServiceImpl implements UserService{
 		
 		return userRepo.searchUser(query);
 	}
+
+	@Override
+	public User findUserByJwt(String jwt) {
+		
+		String email = jwtService.getEmailByJwt(jwt);
+		
+		User user = userRepo.findByEmail(email);
+		if(user == null) System.out.println("user not found");
+		
+		return user;
+	}
+
+	 
 
 }

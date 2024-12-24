@@ -23,7 +23,7 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 	
-	private String secretKey = "";
+	private static String secretKey = "";
 	
 	public JwtService() {
 		try {
@@ -38,6 +38,7 @@ public class JwtService {
 	public String generateToken(Authentication auth) {
 		
 		Map<String, Object> claims = new HashMap<>();
+		claims.put("email", auth.getName());
 		
 		return Jwts.builder()
 				.claims(claims)
@@ -86,6 +87,36 @@ public class JwtService {
 	private Date extractExpiration(String token) {
 		
 		return extractClaim(token, Claims::getExpiration);
+	}
+	
+	public String getEmailByJwt(String jwt) {
+		
+		if (jwt.startsWith("Bearer ")) {
+	        jwt = jwt.substring(7);
+	    }
+		Claims claims = extractAllClaims(jwt);
+		
+		String email = String.valueOf(claims.get("email"));
+		return email;
+
+		
+		
+		
+		//		System.out.println(email);
+		
+//		Claims claims = Jwts.parser()
+//				.verifyWith(getKey())
+//				.build()
+////				.parseSignedClaims(jwt)
+//				.parseClaimsJws(jwt)
+//				.getPayload();
+//		
+//		String email =  String.valueOf(claims.get("email"));
+//		
+//		System.out.println(" before passed");
+//		
+//		String email = (String) extractAllClaims(jwt).get("email");
+//		System.out.println("passed");
 	}
 	
 	

@@ -10,6 +10,8 @@ public interface UserService {
 	
 	public AuthResponse registerUser(User user) throws Exception;
 	
+	public List<User> findAll();
+	
 	public User findUserById(Long id);
 	
 	public User findUserByEmail(String email);
@@ -18,7 +20,8 @@ public interface UserService {
 	
 	public User updateUser(User user, Long userId) throws Exception;
 	
-	
 	public List<User> searchUser(String query);
+	
+	public User findUserByJwt(String jwt);
 	
 }
