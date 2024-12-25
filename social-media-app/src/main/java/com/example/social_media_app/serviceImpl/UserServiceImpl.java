@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.social_media_app.config.JwtFilter;
+import com.example.social_media_app.exceptions.UserException;
 import com.example.social_media_app.models.User;
 import com.example.social_media_app.repository.UserRepo;
 import com.example.social_media_app.response.AuthResponse;
@@ -29,11 +30,11 @@ public class UserServiceImpl implements UserService{
 	JwtService jwtService;
 	
 	@Override
-	public AuthResponse registerUser(User user) throws Exception {
+	public AuthResponse registerUser(User user) throws UserException {
 		
 		User isExist = userRepo.findByEmail(user.getEmail());
 		
-		if(isExist != null) throw new Exception("Use different email to create account");
+		if(isExist != null) throw new UserException("Use different email to create account");
 		
 		User newUser = new User();
 		newUser.setFirstName(user.getFirstName());
@@ -62,25 +63,25 @@ public class UserServiceImpl implements UserService{
 	
 
 	@Override
-	public User findUserById(Long UserId) {
+	public User findUserById(Long UserId) throws UserException {
 		
 		User user = userRepo.findById(UserId)
-				.orElseThrow(() -> new RuntimeException("Account by UserId: " + UserId + " Not Found"));
+				.orElseThrow(() -> new UserException("Account by UserId: " + UserId + " Not Found"));
 		return user;
 	}
 
 	@Override
-	public User findUserByEmail(String email) {
+	public User findUserByEmail(String email) throws UserException {
 		
 		User user = userRepo.findByEmail(email);
 		
-		if(user == null) throw new RuntimeException("User with Email Id : " + email+ " does not exist");
+		if(user == null) throw new UserException("User with Email Id : " + email+ " does not exist");
 		
 		return user;
 	}
 
 	@Override
-	public User followUser(Long reqUserId, Long userId2) {
+	public User followUser(Long reqUserId, Long userId2) throws UserException {
 		
 		User reqUser = findUserById(reqUserId);
 		User user2  =findUserById(userId2);
@@ -99,11 +100,11 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User updateUser(User user, Long userId) throws Exception {
+	public User updateUser(User user, Long userId) throws UserException {
 		
 		User user1 = findUserById(userId);
 		
-		if(user1 == null) throw new Exception("User Not Exist with userId : "+ userId);
+		if(user1 == null) throw new UserException("User Not Exist with userId : "+ userId);
 		
 		if(user.getFirstName()!= null) user1.setFirstName(user.getFirstName());
 		

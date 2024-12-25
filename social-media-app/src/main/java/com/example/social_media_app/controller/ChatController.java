@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.social_media_app.exceptions.UserException;
 import com.example.social_media_app.models.Chat;
 import com.example.social_media_app.models.User;
 import com.example.social_media_app.request.CreateChatRequest;
@@ -27,7 +28,7 @@ public class ChatController {
 	private UserService userService;
 
 	@PostMapping("/api/chats")
-	public Chat createChat(@RequestHeader("Authorization") String jwt, @RequestBody  CreateChatRequest req) {
+	public Chat createChat(@RequestHeader("Authorization") String jwt, @RequestBody  CreateChatRequest req) throws UserException {
 		
 		User reqUser= userService.findUserByJwt(jwt);
 	

@@ -1,5 +1,9 @@
 package com.example.social_media_app.config;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +20,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.example.social_media_app.service.CustomUserDetailsService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 
 @Configuration
@@ -38,11 +46,36 @@ public class SecurityConfig {
 				authorize.requestMatchers("/api/**" ).authenticated()
 					.anyRequest().permitAll())
 			.httpBasic(Customizer.withDefaults())
-			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+			.cors(cors -> cors.configurationSource(CorsConfigurationSource()));
 		
 		httpSecurity.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		httpSecurity.authenticationProvider(authenticationProvider());
 		return httpSecurity.build();
+	}
+
+	private CorsConfigurationSource CorsConfigurationSource() {
+		
+		return new CorsConfigurationSource() {
+			
+			@Override
+			public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+				
+				CorsConfiguration cfg = new CorsConfiguration();
+				cfg.setAllowedOrigins(List.of(
+						"http://localhost:3000"
+				));
+				cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+//				cfg.setAllowedMethods(Collections.singletonList("*")); // this allows all the methods
+				cfg.setAllowCredentials(true);
+//				cfg.setAllowedHeaders(Collections.singletonList("*"));
+				cfg.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+				cfg.setExposedHeaders(Arrays.asList("Authorization"));
+				cfg.setMaxAge(3600L);
+				
+				return cfg;
+			}
+		} ;
 	}
 
 	@Bean

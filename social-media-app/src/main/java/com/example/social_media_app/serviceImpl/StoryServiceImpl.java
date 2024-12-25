@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.social_media_app.exceptions.UserException;
 import com.example.social_media_app.models.Story;
 import com.example.social_media_app.models.User;
 import com.example.social_media_app.repository.StoryRepo;
@@ -33,7 +34,7 @@ public class StoryServiceImpl implements StoryService{
 	}
 
 	@Override
-	public List<Story> findUsersStories(Long userId) {
+	public List<Story> findUsersStories(Long userId) throws UserException {
 		
 		User user = userService.findUserById(userId);
 		

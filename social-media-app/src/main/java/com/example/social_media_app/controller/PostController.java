@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.social_media_app.exceptions.PostException;
+import com.example.social_media_app.exceptions.UserException;
 import com.example.social_media_app.models.Post;
 import com.example.social_media_app.models.User;
 import com.example.social_media_app.response.ApiResponse;
@@ -32,7 +34,7 @@ public class PostController {
 	UserService userService;
 	
 	@PostMapping("/api/posts/user")
-	public ResponseEntity<Post> createPost(@RequestHeader("Authorization") String jwt, @RequestBody Post post){
+	public ResponseEntity<Post> createPost(@RequestHeader("Authorization") String jwt, @RequestBody Post post) throws UserException{
 		
 		User reqUser =  userService.findUserByJwt(jwt);
 		
@@ -41,7 +43,7 @@ public class PostController {
 	}
 	
 	@DeleteMapping("/api/posts/{postId}/delete")
-	public ResponseEntity<ApiResponse> deletePost(@RequestHeader("Authorization") String jwt, @PathVariable Long postId) throws Exception{
+	public ResponseEntity<ApiResponse> deletePost(@RequestHeader("Authorization") String jwt, @PathVariable Long postId) throws UserException, PostException {
 
 		User reqUser =  userService.findUserByJwt(jwt);
 		
@@ -52,7 +54,7 @@ public class PostController {
 	}
 	
 	@GetMapping("/api/posts/{postId}")
-	public ResponseEntity<Post> findPostById(@PathVariable Long postId){
+	public ResponseEntity<Post> findPostById(@PathVariable Long postId) throws PostException{
 		
 		Post post = postService.findPostById(postId);
 		return new ResponseEntity<Post>(post,HttpStatus.ACCEPTED);
@@ -74,7 +76,7 @@ public class PostController {
 	
 	
 	@PutMapping("/api/posts/saved/{postId}")
-	public ResponseEntity<Post> savedPost(@RequestHeader("Authorization") String jwt, @PathVariable Long postId){
+	public ResponseEntity<Post> savedPost(@RequestHeader("Authorization") String jwt, @PathVariable Long postId) throws PostException, UserException{
 
 		User reqUser =  userService.findUserByJwt(jwt);
 		
@@ -83,7 +85,7 @@ public class PostController {
 	}
 
 	@PutMapping("/api/posts/liked/{postId}/user/{userId}")
-	public ResponseEntity<Post> likedPost(@RequestHeader("Authorization") String jwt, @PathVariable Long postId){
+	public ResponseEntity<Post> likedPost(@RequestHeader("Authorization") String jwt, @PathVariable Long postId) throws PostException, UserException{
 
 		User reqUser =  userService.findUserByJwt(jwt);
 		

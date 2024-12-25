@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.social_media_app.exceptions.ChatException;
 import com.example.social_media_app.models.Chat;
 import com.example.social_media_app.models.Message;
 import com.example.social_media_app.models.User;
@@ -27,7 +28,7 @@ public class MessageServiceImpl implements MessageService{
 	private ChatRepo chatRepo;
 
 	@Override
-	public Message createMessage(User user, Long chatId, Message req) throws Exception {
+	public Message createMessage(User user, Long chatId, Message req) throws ChatException  {
 		
 		Chat chat= chatService.findChatById(chatId);
 		
@@ -46,7 +47,7 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 	@Override
-	public List<Message> findChatsMessages(Long chatId) throws Exception {
+	public List<Message> findChatsMessages(Long chatId) throws ChatException  {
 		
 		Chat chat= chatService.findChatById(chatId);
 		

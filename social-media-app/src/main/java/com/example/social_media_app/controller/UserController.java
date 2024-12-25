@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.social_media_app.exceptions.UserException;
 import com.example.social_media_app.models.User;
 import com.example.social_media_app.repository.UserRepo;
 import com.example.social_media_app.response.AuthResponse;
@@ -36,13 +37,13 @@ public class UserController {
 		
 	
 	@GetMapping("/api/users/find/{userId}")
-	public User findUserById(@PathVariable Long userId) {
+	public User findUserById(@PathVariable Long userId) throws UserException {
 		
 		return userService.findUserById(userId);
 	}
 	
 	@GetMapping("/api/users/findByEmail/{email}")
-	public User findUserByEmail(@PathVariable String email) {
+	public User findUserByEmail(@PathVariable String email) throws UserException {
 		return userService.findUserByEmail(email);
 	}
 	
@@ -56,7 +57,7 @@ public class UserController {
 	
 	
 	@PutMapping("/api/users/follow/{userId2}")
-	public User followUserHandler(@RequestHeader("Authorization") String jwt, Long userId2) {
+	public User followUserHandler(@RequestHeader("Authorization") String jwt, Long userId2) throws UserException {
 		
 		User reqUser= userService.findUserByJwt(jwt);
 		

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.social_media_app.exceptions.ReelsException;
+import com.example.social_media_app.exceptions.UserException;
 import com.example.social_media_app.models.Reels;
 import com.example.social_media_app.models.User;
 import com.example.social_media_app.service.ReelsService;
@@ -28,7 +30,7 @@ public class ReelsController {
 	
 	
 	@PostMapping("/api/createReel")
-	public Reels CreateReels(@RequestHeader("Authorization") String jwt, @RequestBody Reels reel) {
+	public Reels CreateReels(@RequestHeader("Authorization") String jwt, @RequestBody Reels reel) throws UserException {
 		
 		User user = userService.findUserByJwt(jwt);
 		Reels newReel = reelsService.createReels(reel, user.getId());
@@ -42,7 +44,7 @@ public class ReelsController {
 	}
 	
 	@GetMapping("/api/reels/user/{userId}")
-	public List<Reels> findUsersReels(@PathVariable Long userId) {
+	public List<Reels> findUsersReels(@PathVariable Long userId) throws UserException, ReelsException {
 		
 		List<Reels> reels = reelsService.findUsersReels(userId);
 		

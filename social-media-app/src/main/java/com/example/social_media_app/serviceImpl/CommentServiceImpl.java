@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.social_media_app.exceptions.PostException;
+import com.example.social_media_app.exceptions.UserException;
 import com.example.social_media_app.models.Comment;
 import com.example.social_media_app.models.Post;
 import com.example.social_media_app.models.User;
@@ -32,7 +34,7 @@ public class CommentServiceImpl implements CommentService{
 	
 	
 	@Override
-	public Comment createComment(Comment comment, Long postId, Long userId) {
+	public Comment createComment(Comment comment, Long postId, Long userId) throws UserException, PostException {
 		
 		User user = userService.findUserById(userId);
 		
@@ -50,7 +52,7 @@ public class CommentServiceImpl implements CommentService{
 	}
 
 	@Override
-	public Comment likeComment(Long commentId, Long userId) {
+	public Comment likeComment(Long commentId, Long userId) throws UserException {
 		
 		Comment comment = findCommentById(commentId);
 		

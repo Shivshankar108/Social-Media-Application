@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.social_media_app.exceptions.PostException;
+import com.example.social_media_app.exceptions.UserException;
 import com.example.social_media_app.models.Comment;
 import com.example.social_media_app.models.User;
 import com.example.social_media_app.service.CommentService;
@@ -28,7 +30,7 @@ public class CommentController {
 	
 	
 	@PostMapping("/api/post/{postId}/comments")
-	public Comment createComment(@RequestHeader("Authorization") String jwt, @RequestBody Comment comment, @PathVariable Long postId) {
+	public Comment createComment(@RequestHeader("Authorization") String jwt, @RequestBody Comment comment, @PathVariable Long postId) throws UserException, PostException {
 	
 		User reqUser = userService.findUserByJwt(jwt);
 		

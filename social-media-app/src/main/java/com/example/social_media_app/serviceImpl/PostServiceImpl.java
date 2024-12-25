@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.social_media_app.exceptions.PostException;
+import com.example.social_media_app.exceptions.UserException;
 import com.example.social_media_app.models.Post;
 import com.example.social_media_app.models.User;
 import com.example.social_media_app.repository.PostRepo;
@@ -26,7 +28,7 @@ public class PostServiceImpl implements PostService{
 	UserService userService;
 	
 	@Override
-	public Post createPost(Post post, Long userId) {
+	public Post createPost(Post post, Long userId) throws UserException {
 		
 		User user = userService.findUserById(userId);
 		
@@ -42,12 +44,12 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public String deletePost(Long postId, Long userId) throws Exception {
+	public String deletePost(Long postId, Long userId) throws PostException, UserException {
 		User user = userService.findUserById(userId);
 		Post post = findPostById(postId);
 		
 		if(post.getUser().getId() != user.getId()) {
-			throw new Exception("You can't delete someone else post");
+			throw new PostException("You can't delete someone else post");
 		}
 		postRepo.delete(post);
 		
@@ -61,9 +63,9 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public Post findPostById(Long postId) {
+	public Post findPostById(Long postId) throws PostException {
 		return postRepo.findById(postId)
-				.orElseThrow(() -> new RuntimeException("Post does not exists"));
+				.orElseThrow(() -> new PostException("Post does not exists"));
 	}
 
 	@Override
@@ -73,7 +75,7 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public Post savedPost(Long userId, Long postId) {
+	public Post savedPost(Long userId, Long postId) throws PostException, UserException {
 		User user = userService.findUserById(userId);
 		Post post = findPostById(postId);
 		
@@ -87,7 +89,7 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public Post LikePost(Long postId, Long userId) {
+	public Post LikePost(Long postId, Long userId) throws PostException, UserException {
 
 		User user = userService.findUserById(userId);
 		Post post = findPostById(postId);
