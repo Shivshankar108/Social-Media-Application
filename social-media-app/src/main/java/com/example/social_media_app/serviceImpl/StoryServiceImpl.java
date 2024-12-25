@@ -34,8 +34,10 @@ public class StoryServiceImpl implements StoryService{
 
 	@Override
 	public List<Story> findUsersStories(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		User user = userService.findUserById(userId);
+		
+		return storyRepo.findByUserId(userId);
 	}
 
 }
