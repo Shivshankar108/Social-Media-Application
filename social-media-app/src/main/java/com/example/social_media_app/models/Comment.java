@@ -4,16 +4,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,25 +20,18 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "posts")
-@Data
-public class Post {
+public class Comment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long postId;
-	private String caption;
-	private String image;
-	private String video;
-	private LocalDateTime createdAt;
+	private Long commentId;
+	private String content;
 	
 	@ManyToOne
 	private User user;
 	
-	@OneToMany
-	private List<User> liked = new ArrayList<>();
+	@ManyToMany
+	private List<User> likes = new ArrayList<>();
 	
-	@OneToMany
-	private List<Comment> comments = new ArrayList<>();
-	
+	private LocalDateTime createdAt;
 }
