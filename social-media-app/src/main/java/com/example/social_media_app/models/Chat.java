@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,11 +22,15 @@ public class Chat {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long chatId;
+	private Long id;
 	private String chatName;
 	private String chatImage;
 	@ManyToMany
 	private List<User> users = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "chat")
+	private List<Message> messages = new  ArrayList<>();
+	 
 	private LocalDateTime timeStamp;
 	
 	

@@ -2,6 +2,7 @@ package com.example.social_media_app.serviceImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,9 @@ public class ChatServiceImpl implements ChatService{
 	public Chat createChat(User reqUser, User user) {
 		
 		Chat isExist = chatRepo.findChatByUsersId(user, reqUser);
-		if(isExist != null) return isExist;
+		if(isExist != null) {
+			return isExist;
+		}
 		
 		Chat newChat = new Chat();
 		newChat.getUsers().add(user);
@@ -37,15 +40,18 @@ public class ChatServiceImpl implements ChatService{
 	@Override
 	public Chat findChatById(Long chatId) throws Exception {
 		
-		Chat chat = chatRepo.findById(chatId)
-				.orElseThrow(()-> new Exception("Chat not found"));
-		return chat;
+		Optional<Chat> chat = chatRepo.findById(chatId);
+		
+		if(chat.isEmpty()) {
+			throw new Exception("Chat Not found");
+		}
+		return chat.get();
 	}
 
 	@Override
 	public List<Chat> findUsersChat(Long userId) {
 		
-		return chatRepo.findByUserId(userId);
+		return chatRepo.findByUsersId(userId);
 	}
 
 }

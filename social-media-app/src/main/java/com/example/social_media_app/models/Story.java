@@ -19,7 +19,7 @@ public class Story {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long storyId;
+	private Long id;
 	
 	@ManyToOne
 	private User user;

@@ -7,7 +7,7 @@ import com.example.social_media_app.models.User;
 
 public interface ChatService {
 
-	public Chat createChat(User user1, User user2);
+	public Chat createChat(User reqUser, User user1);
 	
 	public Chat findChatById(Long chatId) throws Exception;
 	

@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,12 +24,13 @@ public class Reels {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long reelId;
+	private Long id;
 	private String title;
 	private String video;
 	@ManyToOne
 	private User user;
 	
+	@OneToMany
 	private List<User> likes = new ArrayList<>();
 	
 	private LocalDateTime createdAt;
