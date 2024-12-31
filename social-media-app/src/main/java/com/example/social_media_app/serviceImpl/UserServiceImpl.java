@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService{
 		newUser.setFirstName(user.getFirstName());
 		newUser.setLastName(user.getLastName());
 		newUser.setEmail(user.getEmail());
+		newUser.setGender(user.getGender());
 		newUser.setPassword(passwordEncoder.encode(user.getPassword()));
 		
 		User savedUser = userRepo.save(newUser);
@@ -111,6 +112,8 @@ public class UserServiceImpl implements UserService{
 		if(user.getLastName() != null) user1.setLastName(user.getLastName());
 		
 		if(user.getEmail() != null) user1.setEmail(user.getEmail());
+		
+		if(user.getGender() != null) user1.setGender(user.getGender());
 		
 		if(user.getPassword() != null) user1.setPassword(user.getPassword());
 		

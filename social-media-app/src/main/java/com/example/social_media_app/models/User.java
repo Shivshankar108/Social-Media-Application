@@ -1,3 +1,4 @@
+
 package com.example.social_media_app.models;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class User {
 	private String lastName;
 	private String email;
 	private String password;
+	private String gender;
 	
 	private List<Long> followers = new ArrayList<>();
 	
